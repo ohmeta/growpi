@@ -30,6 +30,7 @@ rule grid:
         -r {output.fq_dir} \
         -e fastq.gz \
         -o {params.out_dir} \
+        {params.reassignment} \
         -c {params.coverage_cutoff} \
         -d {params.database} \
         -n {threads} > {log} 2>&1
