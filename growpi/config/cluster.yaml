@@ -1,0 +1,16 @@
+localrules:
+  - all
+  - grid_all
+
+__default__:
+  queue: "st.q"
+  project: "st.m"
+  workdir: "./"
+  mem: "1G"
+  cores: 1
+
+grid:
+  mem: "8G"
+  cores: 8
+  output: "logs/{rule}/{rule}.{wildcards.sample}.o"
+  error: "logs/{rule}/{rule}.{wildcards.sample}.e"

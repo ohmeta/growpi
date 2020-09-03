@@ -1,0 +1,16 @@
+envs:
+  bioenv2: "envs/bioenv2.yaml"
+
+params:
+  samples: samples.tsv
+  reads_layout: "pe"
+  interleaved: False
+
+  grid:
+    threads: 8
+    coverage_cutoff: 0.2
+    reassignment: True
+    database: /ldfssz1/ST_META/share/User/zhujie/database/GRiD/Stool
+
+output:
+  grid: "results/grid"

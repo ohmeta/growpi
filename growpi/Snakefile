@@ -1,0 +1,17 @@
+#!/usr/bin/env snakemake
+
+import sys
+import metapi
+import pandas as pd
+
+shell.executable("bash")
+
+
+SAMPLES = metapi.parse_samples(config)
+
+
+include: "grid.smk"
+
+rule all:
+    input:
+        rules.grid_all.input
