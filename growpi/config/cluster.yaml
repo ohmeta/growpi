@@ -14,3 +14,9 @@ grid:
   cores: 8
   output: "logs/{rule}/{rule}.{wildcards.sample}.o"
   error: "logs/{rule}/{rule}.{wildcards.sample}.e"
+
+grid_merge:
+  mem: "512M"
+  cores: 8
+  output: "logs/{rule}/{rule}.o"
+  error: "logs/{rule}/{rule}.e"

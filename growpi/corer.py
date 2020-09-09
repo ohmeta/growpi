@@ -78,7 +78,7 @@ def run_snakemake(args, unknown, snakefile):
 
 
 class growpi_config:
-    sub_dirs = ["envs", "results", "logs/grid"]
+    sub_dirs = ["envs", "results", "logs/grid", "logs/grid_merge"]
 
     def __init__(self, work_dir):
         self.work_dir = os.path.realpath(work_dir)
