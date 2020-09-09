@@ -76,7 +76,7 @@ rule grid_merge:
                 return None, None
 
 
-        def merge(input_list, workers, func, **kwargs):
+        def merge(files, workers, func, **kwargs):
             df_1_list = []
             df_2_list = []
 
