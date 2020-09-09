@@ -48,11 +48,10 @@ rule grid_merge:
     output:
         grid = os.path.join(config["output"]["grid"], "grid.merged.tsv"),
         grid_reliable = os.path.join(config["output"]["grid"], "grid.merged.reliable.tsv")
-    params:
-        id = "{sample}"
     threads:
         config["params"]["grid"]["threads"]
     run:
+        import os
         import pandas as pd
         import concurrent.futures
 
@@ -61,10 +60,11 @@ rule grid_merge:
                 if os.path.exists(txt_file):
                     df = pd.read_csv(txt_file, sep="\t")
                     if not df.empty:
+                        sample_id = os.path.basename(txt_file).split(".")[0]
                         df_reliable = df.query('Species_heterogeneity < 0.3')
                         key = ["Genome", "GRiD"]
-                        df = df.loc[:, key].rename(columns={"GRiD": params.id}).set_index("Genome")
-                        df_reliable = df.loc[:, key].rename(columns={"GRiD": params.id}).set_index("Genome")
+                        df = df.loc[:, key].rename(columns={"GRiD": sample_id}).set_index("Genome")
+                        df_reliable = df.loc[:, key].rename(columns={"GRiD": sample_id}).set_index("Genome")
                         return df, df_reliable
                     else:
                         return None, None
