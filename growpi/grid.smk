@@ -5,7 +5,8 @@ rule grid:
     output:
         fq_dir = directory(temp(os.path.join(config["output"]["grid"],
                                              "{sample}.fq.temp"))),
-        done = os.path.join(config["output"]["grid"], "{sample}.grid.out/done")
+        txt = os.path.join(config["output"]["grid"],
+                           "{sample}.grid.out/{sample}.GRiD.txt")
     log:
         os.path.join(config["output"]["grid"], "logs/{sample}.grid.log")
     conda:
@@ -39,8 +40,68 @@ rule grid:
         '''
 
 
-rule grid_all:
+rule grid_merge:
     input:
         expand(os.path.join(config["output"]["grid"],
-                            "{sample}.grid.out/done"),
+                            "{sample}.grid.out/{sample}.GRiD.txt"),
                sample=SAMPLES.index.unique())
+    output:
+        grid = os.path.join(config["output"]["grid"], "grid.merged.tsv"),
+        grid_reliable = os.path.join(config["output"]["grid"], "grid.merged.reliable.tsv")
+    params:
+        id = "{sample}"
+    threads:
+        config["params"]["grid"]["threads"]
+    run:
+        import pandas as pd
+        import concurrent.futures
+
+        def parse_grid(txt_file):
+            try:
+                if os.path.exists(txt_file):
+                    df = pd.read_csv(txt_file, sep="\t")
+                    if not df.empty:
+                        df_reliable = df.query('Species_heterogeneity < 0.3')
+                        key = ["Genome", "GRiD"]
+                        df = df.loc[:, key].rename(columns={"GRiD": params.id}).set_index("Genome")
+                        df_reliable = df.loc[:, key].rename(columns={"GRiD": params.id}).set_index("Genome")
+                        return df, df_reliable
+                    else:
+                        return None, None
+                else:
+                    print("%s is not exists" % txt_file)
+                    return None, None
+            except pd.io.common.EmptyDataError:
+                print("%s is empty, please check" % txt_file)
+                return None, None
+
+
+        def merge(input_list, workers, func, **kwargs):
+            df_1_list = []
+            df_2_list = []
+
+            with concurrent.futures.ProcessPoolExecutor(max_workers=workers) as executor:
+                for df_1, df_2 in executor.map(func, files):
+                    if df_1 is not None:
+                        df_1_list.append(df_1)
+                    if df_2 is not None:
+                        df_2_list.append(df_2)
+
+            df_1_ = pd.concat(df_1_list, axis=1).fillna(0)
+            df_2_ = pd.concat(df_2_list, axis=1).fillna(0)
+
+            if "output_1" in kwargs:
+                df_1_.reset_index().to_csv(kwargs["output_1"], sep="\t", index=False)
+            if "output_2" in kwargs:
+                df_2_.reset_index().to_csv(kwargs["output_2"], sep="\t", index=False)
+
+            return df_1_, df_2_
+
+
+        merge(input, threads, parse_grid, output_1=output.grid, output_2=output.grid_reliable)
+
+
+rule grid_all:
+    input:
+        os.path.join(config["output"]["grid"], "grid.merged.tsv"),
+        os.path.join(config["output"]["grid"], "grid.merged.reliable.tsv")
