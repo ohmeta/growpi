@@ -87,8 +87,8 @@ rule grid_merge:
                     if df_2 is not None:
                         df_2_list.append(df_2)
 
-            df_1_ = pd.concat(df_1_list, axis=1).fillna(0)
-            df_2_ = pd.concat(df_2_list, axis=1).fillna(0)
+            df_1_ = pd.concat(df_1_list, axis=1).fillna(1)
+            df_2_ = pd.concat(df_2_list, axis=1).fillna(1)
 
             if "output_1" in kwargs:
                 df_1_.reset_index().to_csv(kwargs["output_1"], sep="\t", index=False)
