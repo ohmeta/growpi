@@ -1,0 +1,15 @@
+include *.md *.txt
+include LICENSE
+
+recursive-include growpi/ *
+recursive-include growpi/wrappers *
+recursive-include growpi/rules *
+recursive-include growpi/snakefiles *
+recursive-include growpi/envs *
+recursive-include growpi/config *
+
+global-exclude growpi/ *.pyc
+global-exclude growpi/__pycache__ *.pyc
+global-exclude growpi/wrappers/ *.pyc
+global-exclude growpi/wrappers/__pycache__ *.pyc
+

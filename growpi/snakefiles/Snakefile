@@ -10,7 +10,9 @@ shell.executable("bash")
 SAMPLES = metapi.parse_samples(config)
 
 
-include: "grid.smk"
+include: "../rules/grid.smk"
+
+
 
 rule all:
     input:
