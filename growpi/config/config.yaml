@@ -115,7 +115,8 @@ params:
     threads: 8
 
     grid:
-      do: False
+      do_single: False
+      do_multi: True
       coverage_cutoff: 0.2
       reassignment: True
       database: /path/to/GRiD/Stool

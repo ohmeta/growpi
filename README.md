@@ -1,4 +1,4 @@
-# microbial community grow rate pipeline
+# Microbial community grow rate pipeline (WIP)
 
 ```bash
 usage: growpi [-h] [-v]  ...

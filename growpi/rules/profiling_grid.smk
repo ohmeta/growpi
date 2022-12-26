@@ -12,6 +12,8 @@ rule profiling_prepare_reads:
         profiling_input_with_short_reads
     output:
         temp(os.path.join(config["output"]["profiling"], "fastq/{sample}/{sample}.fastq.gz"))
+    conda:
+        config["envs"]["grid"]
     shell:
         '''
         seqtk mergepe {input} | \
@@ -22,7 +24,7 @@ rule profiling_prepare_reads:
 if config["params"]["profiling"]["grid"]["do_single"]:
     rule profiling_grid_single:
         input:
-            os.path.join(config["output"]["profiling"], "fastq/grid/{sample}.fastq.gz")
+            os.path.join(config["output"]["profiling"], "fastq/{sample}/{sample}.fastq.gz")
         output:
             txt = os.path.join(config["output"]["profiling"], "profile/grid_single/{sample}/{sample}.GRiD.txt")
         benchmark:
@@ -107,7 +109,7 @@ else:
 if config["params"]["profiling"]["grid"]["do_multi"]:
     rule profiling_grid_multi:
         input:
-            os.path.join(config["output"]["profiling"], "fastq/grid/{sample}.fastq.gz")
+            os.path.join(config["output"]["profiling"], "fastq/{sample}/{sample}.fastq.gz")
         output:
             txt = os.path.join(config["output"]["profiling"], "profile/grid_multi/{sample}/{sample}.GRiD.txt")
         benchmark:
