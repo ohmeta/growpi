@@ -13,7 +13,6 @@ SAMPLES = growpi.parse_samples(config)
 include: "../rules/grid.smk"
 
 
-
 rule all:
     input:
         rules.grid_all.input
