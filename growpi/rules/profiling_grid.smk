@@ -35,9 +35,7 @@ if config["params"]["profiling"]["grid"]["do_single"]:
             config["envs"]["grid"]
         params:
             sample_id = "{sample}",
-            database = config["params"]["profiling"]["grid"]["database"],
-            coverage_cutoff = config["params"]["profiling"]["grid"]["coverage_cutoff"],
-            reassignment = "-p" if config["params"]["profiling"]["grid"]["reassignment"] else "",
+            reference_genome = config["params"]["profiling"]["grid"]["reference_genome"],
             out_dir = os.path.join(config["output"]["profiling"], "profile/grid_single/{sample}"),
             fq_dir = os.path.join(config["output"]["profiling"], "fastq/{sample}")
         threads:
@@ -48,9 +46,7 @@ if config["params"]["profiling"]["grid"]["do_single"]:
             -r {params.fq_dir} \
             -e fastq.gz \
             -o {params.out_dir} \
-            {params.reassignment} \
-            -c {params.coverage_cutoff} \
-            -d {params.database} \
+            -g {params.reference_genome} \
             -n {threads} \
             >{log} 2>&1
             '''
@@ -104,6 +100,7 @@ if config["params"]["profiling"]["grid"]["do_single"]:
 else:
     rule profiling_grid_single_all:
         input:
+
 
 
 if config["params"]["profiling"]["grid"]["do_multi"]:

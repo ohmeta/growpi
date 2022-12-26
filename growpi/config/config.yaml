@@ -117,9 +117,10 @@ params:
     grid:
       do_single: False
       do_multi: True
-      coverage_cutoff: 0.2
-      reassignment: True
-      database: /path/to/GRiD/Stool
+      reference_genome: /path/to/reference_genome  # grid single mode
+      coverage_cutoff: 0.2                         # grid multiplex mode
+      reassignment: True                           # grid multiplex mode
+      database: /path/to/GRiD/Stool                # grid multiplex mode
 
 
 output:
