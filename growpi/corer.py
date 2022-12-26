@@ -6,14 +6,14 @@ import sys
 import subprocess
 import textwrap
 import shutil
-import metapi
 
+import growpi
 
 WORKFLOWS = ["grid_all", "all"]
 
 
 def run_snakemake(args, unknown, snakefile):
-    conf = metapi.parse_yaml(args.config)
+    conf = growpi.parse_yaml(args.config)
 
     if not os.path.exists(conf["params"]["samples"]):
         print("Please specific samples list on init step or change config.yaml manualy")
@@ -149,8 +149,8 @@ if you have environments:
         """
         get default configuration
         """
-        config = metapi.parse_yaml(self.config_file)
-        cluster = metapi.parse_yaml(self.cluster_file)
+        config = growpi.parse_yaml(self.config_file)
+        cluster = growpi.parse_yaml(self.cluster_file)
         return (config, cluster)
 
 
@@ -169,10 +169,10 @@ def init(args, unknown):
         if args.samples:
             conf["params"]["samples"] = args.samples
 
-        metapi.update_config(
+        growpi.update_config(
             project.config_file, project.new_config_file, conf, remove=False
         )
-        metapi.update_config(
+        growpi.update_config(
             project.cluster_file, project.new_cluster_file, cluster, remove=False
         )
     else:
@@ -189,15 +189,20 @@ def run_wf(args, unknown):
 def main():
     banner = """
 
-      ██████  ██████   ██████  ██     ██ ██████  ██ 
-     ██       ██   ██ ██    ██ ██     ██ ██   ██ ██ 
-     ██   ███ ██████  ██    ██ ██  █  ██ ██████  ██ 
-     ██    ██ ██   ██ ██    ██ ██ ███ ██ ██      ██ 
-      ██████  ██   ██  ██████   ███ ███  ██      ██ 
-
-            Omics for All, Open Source for All
+    ▄████  ██▀███   ▒█████   █     █░ ██▓███   ██▓
+    ██▒ ▀█▒▓██ ▒ ██▒▒██▒  ██▒▓█░ █ ░█░▓██░  ██▒▓██▒
+    ▒██░▄▄▄░▓██ ░▄█ ▒▒██░  ██▒▒█░ █ ░█ ▓██░ ██▓▒▒██▒
+    ░▓█  ██▓▒██▀▀█▄  ▒██   ██░░█░ █ ░█ ▒██▄█▓▒ ▒░██░
+    ░▒▓███▀▒░██▓ ▒██▒░ ████▓▒░░░██▒██▓ ▒██▒ ░  ░░██░
+    ░▒   ▒ ░ ▒▓ ░▒▓░░ ▒░▒░▒░ ░ ▓░▒ ▒  ▒▓▒░ ░  ░░▓  
+    ░   ░   ░▒ ░ ▒░  ░ ▒ ▒░   ▒ ░ ░  ░▒ ░      ▒ ░
+    ░ ░   ░   ░░   ░ ░ ░ ░ ▒    ░   ░  ░░        ▒ ░
+        ░    ░         ░ ░      ░              ░  
+ 
+           Omics for All, Open Source for All
 
     Microbial community grow rate profiling pipeline
+
 """
 
     parser = argparse.ArgumentParser(

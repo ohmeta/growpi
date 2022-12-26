@@ -1,7 +1,7 @@
 rule grid:
     input:
-        fq1 = lambda wildcards: metapi.get_reads(SAMPLES, wildcards, "fq1")[0],
-        fq2 = lambda wildcards: metapi.get_reads(SAMPLES, wildcards, "fq2")[0]
+        fq1 = lambda wildcards: growpi.get_reads(SAMPLES, wildcards, "fq1")[0],
+        fq2 = lambda wildcards: growpi.get_reads(SAMPLES, wildcards, "fq2")[0]
     output:
         fq_dir = directory(temp(os.path.join(config["output"]["grid"],
                                              "{sample}.fq.temp"))),

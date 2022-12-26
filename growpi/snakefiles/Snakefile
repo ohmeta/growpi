@@ -1,13 +1,13 @@
 #!/usr/bin/env snakemake
 
 import sys
-import metapi
 import pandas as pd
 
+import growpi
 shell.executable("bash")
 
 
-SAMPLES = metapi.parse_samples(config)
+SAMPLES = growpi.parse_samples(config)
 
 
 include: "../rules/grid.smk"

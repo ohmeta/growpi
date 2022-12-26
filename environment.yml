@@ -1,4 +1,4 @@
-name: metapi
+name: growpi
 channels:
   - bioconda
   - conda-forge
