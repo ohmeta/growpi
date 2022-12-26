@@ -10,7 +10,7 @@ shell.executable("bash")
 SAMPLES = growpi.parse_samples(config)
 
 
-include: "../rules/grid.smk"
+include: "../rules/profiling_grid.smk"
 
 
 rule all:

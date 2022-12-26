@@ -356,7 +356,7 @@ if begin from simulate:
         type=str,
         default="grid",
         required=False,
-        choices=["irep", "grid", "demic"],
+        choices=["irep", "grid", "smeg", "demic"],
         help="which profiler used",
     )
  
