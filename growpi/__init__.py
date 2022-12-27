@@ -20,6 +20,6 @@ from growpi.qcer import compute_host_rate
 from growpi.qcer import qc_bar_plot
 from growpi.qcer import parse_fastp_json
 
-from growpi.__about__ import __version__, __authoer__
+from growpi.__about__ import __version__, __author__
 
 name = "growpi"

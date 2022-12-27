@@ -114,6 +114,9 @@ params:
   profiling:
     threads: 8
 
+    irep:
+      do: True
+
     grid:
       do_single: False
       do_multi: True
@@ -121,6 +124,8 @@ params:
       coverage_cutoff: 0.2                         # grid multiplex mode
       reassignment: True                           # grid multiplex mode
       database: /path/to/GRiD/Stool                # grid multiplex mode
+
+    
 
 
 output:

@@ -104,11 +104,17 @@ def update_config_tools(conf, begin, trimmer, rmhoster, profilers):
         else:
             conf["params"]["rmhost"][rmhoster_]["do"] = False
 
-    for profiler_ in ["irep", "grid", "demic"]:
-        if profiler_ in profilers:
-            conf["params"]["profiling"][profiler_]["do"] = True
+    for profiler_ in profilers:
+        if profiler_ in ["irep", "grid", "smeg", "demic"]:
+            if profiler_ in conf["params"]["profiling"]:
+                conf["params"]["profiling"][profiler_]["do"] = True
+            else:
+                print(f"Currently growpi don't support {profiler_}")
         else:
-            conf["params"]["profiling"][profiler_]["do"] = False
+            if profiler_ in conf["params"]["profiling"]:
+                conf["params"]["profiling"][profiler_]["do"] = False
+            else:
+                print(f"Currently growpi don't support {profiler_}")
 
     if begin == "simulate":
         conf["params"]["simulate"]["do"] = True
@@ -348,13 +354,13 @@ if begin from simulate:
         type=str,
         default="bowtie2",
         required=False,
-        choices=["soap", "bwa", "bowtie2", "minimap2", "kraken2", "kneaddata"],
+        choices=["bwa", "bowtie2", "minimap2", "kraken2", "kneaddata"],
         help="which rmhoster used",
     )
     parser_init.add_argument(
         "--profiler",
-        type=str,
-        default="grid",
+        nargs="+",
+        default=["grid"],
         required=False,
         choices=["irep", "grid", "smeg", "demic"],
         help="which profiler used",
